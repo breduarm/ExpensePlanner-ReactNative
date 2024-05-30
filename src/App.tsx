@@ -5,6 +5,7 @@ import NewBudget from './components/NewBudget';
 import ControlBudget from './components/ControlBudget';
 
 function App(): React.JSX.Element {
+  const [budget, setBudget] = useState(0);
   const [isBudgetValid, setIsBudgetValid] = useState(false);
 
   const handleNewBudget = (budget: number) => {
@@ -21,9 +22,13 @@ function App(): React.JSX.Element {
       <View style={styles.header}>
         <Header />
         {isBudgetValid ? (
-          <ControlBudget />
+          <ControlBudget budget={budget} />
         ) : (
-          <NewBudget handleNewBudget={handleNewBudget} />
+          <NewBudget
+            budget={budget}
+            setBudget={setBudget}
+            handleNewBudget={handleNewBudget}
+          />
         )}
       </View>
     </View>
