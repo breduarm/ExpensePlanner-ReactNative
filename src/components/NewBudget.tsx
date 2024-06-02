@@ -4,10 +4,10 @@ import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 const NewBudget = () => {
   return (
     <View style={styles.container}>
-      <Text>Define Budget</Text>
-      <TextInput></TextInput>
-      <Pressable>
-        <Text>Add budget</Text>
+      <Text style={styles.label}>Define Budget</Text>
+      <TextInput style={styles.input} keyboardType='numeric' placeholder='Add your budget: e.g. 300'></TextInput>
+      <Pressable style={styles.button}>
+        <Text style={styles.buttonText}>Add budget</Text>
       </Pressable>
     </View>
   );
@@ -31,6 +31,31 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
+  label: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: '#3B82F6',
+  },
+  input: {
+    marginTop: 32,
+    backgroundColor: '#F5F5F5',
+    padding: 8,
+    borderRadius: 8,
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: 32,
+    backgroundColor: '#1048A4',
+    height: 40,
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+  }
 });
 
 export default NewBudget;
