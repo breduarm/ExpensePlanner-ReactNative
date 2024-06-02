@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 
-const NewBudget = () => {
+const NewBudget = ({handleNewBudget}) => {
+    const [budget, setBudget] = useState(0);
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Define Budget</Text>
-      <TextInput style={styles.input} keyboardType='numeric' placeholder='Add your budget: e.g. 300'></TextInput>
-      <Pressable style={styles.button}>
+      <TextInput
+        style={styles.input}
+        value={budget.toString()}
+        onChangeText={newText => setBudget(parseFloat(newText))}
+        keyboardType="numeric"
+        placeholder="Add your budget: e.g. 300"></TextInput>
+      <Pressable style={styles.button} onPress={() => handleNewBudget(budget)}>
         <Text style={styles.buttonText}>Add budget</Text>
       </Pressable>
     </View>
@@ -55,7 +62,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
     fontWeight: 'bold',
-  }
+  },
 });
 
 export default NewBudget;
