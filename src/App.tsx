@@ -1,13 +1,23 @@
 import React, {useState} from 'react';
-import {Alert, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Header from './components/Header';
 import NewBudget from './components/NewBudget';
 import ControlBudget from './components/ControlBudget';
 import Expense from './domain/models/Expense';
+import ExpenseForm from './components/ExpenseForm';
 
 function App(): React.JSX.Element {
   const [budget, setBudget] = useState(0);
   const [isBudgetValid, setIsBudgetValid] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [expenses, setExpenses] = useState([
     new Expense(1, 30),
     new Expense(2, 40),
@@ -37,8 +47,18 @@ function App(): React.JSX.Element {
           />
         )}
       </View>
+
+      {showModal && (
+        <Modal visible={showModal} animationType="slide">
+          <ExpenseForm />
+        </Modal>
+      )}
+
       {isBudgetValid && (
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            setShowModal(true);
+          }}>
           <Image
             style={styles.img}
             source={require('./assets/img/nuevo-gasto.png')}
