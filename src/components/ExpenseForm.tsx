@@ -11,12 +11,16 @@ import {
 import {Picker} from '@react-native-picker/picker';
 import globalStyles from '../styles';
 
-const ExpenseForm = () => {
+const ExpenseForm = ({setShowModal}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Pressable>
-          <Text>Cancel</Text>
+        <Pressable
+          style={styles.cancelBtn}
+          onPress={() => {
+            setShowModal(false);
+          }}>
+          <Text style={styles.cancelBtnText}>Cancel</Text>
         </Pressable>
       </View>
       <View style={styles.form}>
@@ -59,6 +63,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E40AF',
     flex: 1,
   },
+  cancelBtn: {
+    height: 40,
+    marginTop: 32,
+    marginHorizontal: 24,
+    backgroundColor: '#DB2777',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  cancelBtnText: {
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    textAlign: 'center',
+  },
   form: {
     ...globalStyles.container,
   },
@@ -75,7 +93,7 @@ const styles = StyleSheet.create({
     color: '#64748B',
     textTransform: 'uppercase',
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   input: {
     height: 40,
@@ -93,7 +111,7 @@ const styles = StyleSheet.create({
   submitBtnText: {
     textAlign: 'center',
     color: '#FFFFFF',
-    fontWeight: '700',
+    fontWeight: 'bold',
     textTransform: 'uppercase',
   },
 });

@@ -49,8 +49,8 @@ function App(): React.JSX.Element {
       </View>
 
       {showModal && (
-        <Modal visible={showModal} animationType="slide">
-          <ExpenseForm />
+        <Modal visible={showModal} animationType="slide" onRequestClose={() => {setShowModal(false)}}>
+          <ExpenseForm setShowModal={setShowModal} />
         </Modal>
       )}
 
