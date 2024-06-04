@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import Header from './components/Header';
 import NewBudget from './components/NewBudget';
 import ControlBudget from './components/ControlBudget';
@@ -8,13 +8,11 @@ import Expense from './domain/models/Expense';
 function App(): React.JSX.Element {
   const [budget, setBudget] = useState(0);
   const [isBudgetValid, setIsBudgetValid] = useState(false);
-  const [expenses, setExpenses] = useState(
-    [
-      new Expense(1, 30),
-      new Expense(2, 40),
-      new Expense(3, 50),
-    ]
-  );
+  const [expenses, setExpenses] = useState([
+    new Expense(1, 30),
+    new Expense(2, 40),
+    new Expense(3, 50),
+  ]);
 
   const handleNewBudget = (budget: number) => {
     console.log('=== new Budget: ', budget);
@@ -30,7 +28,7 @@ function App(): React.JSX.Element {
       <View style={styles.header}>
         <Header />
         {isBudgetValid ? (
-          <ControlBudget budget={budget} expenses={expenses}/>
+          <ControlBudget budget={budget} expenses={expenses} />
         ) : (
           <NewBudget
             budget={budget}
@@ -39,6 +37,14 @@ function App(): React.JSX.Element {
           />
         )}
       </View>
+      {isBudgetValid && (
+        <Pressable>
+          <Image
+            style={styles.img}
+            source={require('./assets/img/nuevo-gasto.png')}
+          />
+        </Pressable>
+      )}
     </View>
   );
 }
@@ -50,6 +56,13 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#3B82F6',
+  },
+  img: {
+    width: 60,
+    height: 60,
+    position: 'absolute',
+    top: 120,
+    right: 20,
   },
 });
 
