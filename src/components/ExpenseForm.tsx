@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -12,6 +12,10 @@ import {Picker} from '@react-native-picker/picker';
 import globalStyles from '../styles';
 
 const ExpenseForm = ({setShowModal}) => {
+  const [name, setName] = useState("")
+  const [amount, setAmount] = useState("")
+  const [category, setCategory] = useState("")
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -30,6 +34,8 @@ const ExpenseForm = ({setShowModal}) => {
           <TextInput
             style={styles.input}
             placeholder="Name of the expense e.g. Food"
+            value={name}
+            onChangeText={setName}
           />
         </View>
         <View style={styles.field}>
@@ -37,11 +43,13 @@ const ExpenseForm = ({setShowModal}) => {
           <TextInput
             style={styles.input}
             placeholder="Amount of the expense e.g. 300"
+            value={amount}
+            onChangeText={setAmount}
           />
         </View>
         <View style={styles.field}>
           <Text style={styles.label}>Expense category:</Text>
-          <Picker>
+          <Picker selectedValue={category} onValueChange={(itemValue) => { setCategory(itemValue) }}>
             <Picker.Item label="-- Select --" value="" />
             <Picker.Item label="Savings" value="savings" />
             <Picker.Item label="Food" value="food" />
