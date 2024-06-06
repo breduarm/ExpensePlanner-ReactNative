@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -10,11 +10,12 @@ import {
 
 import {Picker} from '@react-native-picker/picker';
 import globalStyles from '../styles';
+import Expense from '../domain/models/Expense';
 
-const ExpenseForm = ({setShowModal}) => {
-  const [name, setName] = useState("")
-  const [amount, setAmount] = useState("")
-  const [category, setCategory] = useState("")
+const ExpenseForm = ({setShowModal, handleExpense}) => {
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,7 +50,11 @@ const ExpenseForm = ({setShowModal}) => {
         </View>
         <View style={styles.field}>
           <Text style={styles.label}>Expense category:</Text>
-          <Picker selectedValue={category} onValueChange={(itemValue) => { setCategory(itemValue) }}>
+          <Picker
+            selectedValue={category}
+            onValueChange={itemValue => {
+              setCategory(itemValue);
+            }}>
             <Picker.Item label="-- Select --" value="" />
             <Picker.Item label="Savings" value="savings" />
             <Picker.Item label="Food" value="food" />
@@ -58,7 +63,7 @@ const ExpenseForm = ({setShowModal}) => {
             <Picker.Item label="Other" value="other" />
           </Picker>
         </View>
-        <Pressable style={styles.submitBtn}>
+        <Pressable style={styles.submitBtn} onPress={() => {handleExpense(new Expense(name, amount, category))}}>
           <Text style={styles.submitBtnText}>Add Expense</Text>
         </Pressable>
       </View>

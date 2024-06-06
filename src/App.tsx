@@ -18,11 +18,7 @@ function App(): React.JSX.Element {
   const [budget, setBudget] = useState(0);
   const [isBudgetValid, setIsBudgetValid] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [expenses, setExpenses] = useState([
-    new Expense(1, 30),
-    new Expense(2, 40),
-    new Expense(3, 50),
-  ]);
+  const [expenses, setExpenses] = useState([]);
 
   const handleNewBudget = (budget: number) => {
     console.log('=== new Budget: ', budget);
@@ -32,6 +28,13 @@ function App(): React.JSX.Element {
       Alert.alert('Error', 'The budget must be greater than 0');
     }
   };
+
+  const handleExpense = (expense: Expense) => {
+    if (!expense.isValidExpense()) {
+      Alert.alert('Error', 'All fields are required');
+      return
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -50,7 +53,7 @@ function App(): React.JSX.Element {
 
       {showModal && (
         <Modal visible={showModal} animationType="slide" onRequestClose={() => {setShowModal(false)}}>
-          <ExpenseForm setShowModal={setShowModal} />
+          <ExpenseForm setShowModal={setShowModal} handleExpense={handleExpense}/>
         </Modal>
       )}
 

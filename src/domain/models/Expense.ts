@@ -1,11 +1,17 @@
 class Expense {
-    id: number;
-    amount: number;
+  name: string;
+  amount: string;
+  category: string;
 
-    constructor(id: number, amount: number) {
-        this.id = id;
-        this.amount = amount;
-    }
+  constructor(name: string, amount: string, category: string) {
+    this.name = name;
+    this.amount = amount;
+    this.category = category;
+  }
+
+  isValidExpense(): boolean {
+    return this.name !== '' && this.amount !== '' && this.category !== '';
+  }
 }
 
 export default Expense;
