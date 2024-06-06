@@ -10,7 +10,7 @@ class Expense {
   }
 
   isValidExpense(): boolean {
-    return this.name !== '' && this.amount !== '' && this.category !== '';
+    return !Object.values(this).includes('');
   }
 }
 
