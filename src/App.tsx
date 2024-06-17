@@ -13,6 +13,7 @@ import NewBudget from './components/NewBudget';
 import ControlBudget from './components/ControlBudget';
 import Expense from './domain/models/Expense';
 import ExpenseForm from './components/ExpenseForm';
+import ExpenseList from './components/ExpenseList';
 
 function App(): React.JSX.Element {
   const [budget, setBudget] = useState(0);
@@ -58,6 +59,10 @@ function App(): React.JSX.Element {
         <Modal visible={showModal} animationType="slide" onRequestClose={() => {setShowModal(false)}}>
           <ExpenseForm setShowModal={setShowModal} handleExpense={handleExpense}/>
         </Modal>
+      )}
+
+      {isBudgetValid && (
+        <ExpenseList />
       )}
 
       {isBudgetValid && (
