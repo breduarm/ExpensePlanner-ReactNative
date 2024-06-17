@@ -62,7 +62,7 @@ function App(): React.JSX.Element {
       )}
 
       {isBudgetValid && (
-        <ExpenseList />
+        <ExpenseList expenses={expenses}/>
       )}
 
       {isBudgetValid && (
