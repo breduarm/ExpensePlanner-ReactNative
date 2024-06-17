@@ -18,7 +18,7 @@ function App(): React.JSX.Element {
   const [budget, setBudget] = useState(0);
   const [isBudgetValid, setIsBudgetValid] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const handleNewBudget = (budget: number) => {
     console.log('=== new Budget: ', budget);
@@ -34,6 +34,9 @@ function App(): React.JSX.Element {
       Alert.alert('Error', 'All fields are required');
       return
     }
+
+    setExpenses([...expenses, expense])
+    setShowModal(false)
   }
 
   return (
