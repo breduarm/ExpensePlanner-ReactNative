@@ -10,7 +10,9 @@ const ExpenseList = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginTop: 70,
+  },
   title: {
     color: '#64748B',
     fontSize: 30,
