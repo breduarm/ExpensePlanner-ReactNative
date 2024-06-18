@@ -3,7 +3,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 
 import Expense from '../domain/models/Expense';
 import globalStyles from '../styles';
-import {formatAmount} from '../helpers';
+import {formatAmount, formatDate} from '../helpers';
 
 const expenseCategoryIcons = {
   savings: require('../assets/img/icono_ahorro.png'),
@@ -28,6 +28,7 @@ const ExpenseDetail: React.FC<ExpenseDetailProps> = ({expense}) => {
           <View style={styles.containerText}>
             <Text style={styles.category}>{expense.category}</Text>
             <Text style={styles.expenseName}>{expense.name}</Text>
+            <Text style={styles.expenseDate}>{formatDate(expense.date)}</Text>
           </View>
         </View>
         <Text style={styles.expenseAmount}>{formatAmount(Number(expense.amount))}</Text>
@@ -66,6 +67,12 @@ const styles = StyleSheet.create({
     color: '#64748D',
     fontSize: 22,
     marginBottom: 4,
+  },
+  expenseDate: {
+    color: '#DB2777',
+    fontSize: 14,
+    marginBottom: 4,
+    fontWeight: '700',
   },
   expenseImage: {
     width: 80,

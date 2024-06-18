@@ -5,9 +5,11 @@ class Expense {
   name: string;
   amount: string;
   category: string;
+  date: number;
 
   constructor(name: string, amount: string, category: string) {
     this.id = generateId()
+    this.date = Date.now()
     this.name = name;
     this.amount = amount;
     this.category = category;
