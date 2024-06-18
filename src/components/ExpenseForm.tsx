@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Dispatch, FC, SetStateAction, useEffect, useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -12,10 +12,32 @@ import {Picker} from '@react-native-picker/picker';
 import globalStyles from '../styles';
 import Expense from '../domain/models/Expense';
 
-const ExpenseForm = ({setShowModal, handleExpense, setExpense}) => {
+interface ExpenseFormProps {
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  handleExpense: (expense: Expense) => void;
+  expense: Expense;
+  setExpense: Dispatch<SetStateAction<Expense>>;
+}
+
+const ExpenseForm: React.FC<ExpenseFormProps> = ({
+  setShowModal,
+  handleExpense,
+  expense,
+  setExpense,
+}) => {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    if (expense?.name) {
+      setName(expense.name);
+      setAmount(expense.amount);
+      setCategory(expense.category);
+      setId(expense.id);
+    }
+  }, [expense]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,7 +52,9 @@ const ExpenseForm = ({setShowModal, handleExpense, setExpense}) => {
         </Pressable>
       </View>
       <View style={styles.form}>
-        <Text style={styles.title}>New Expense</Text>
+        <Text style={styles.title}>
+          {expense?.name ? 'Edit Expense' : 'New Expense'}
+        </Text>
         <View style={styles.field}>
           <Text style={styles.label}>Expense name:</Text>
           <TextInput
@@ -64,8 +88,13 @@ const ExpenseForm = ({setShowModal, handleExpense, setExpense}) => {
             <Picker.Item label="Other" value="other" />
           </Picker>
         </View>
-        <Pressable style={styles.submitBtn} onPress={() => {handleExpense(new Expense(name, amount, category))}}>
-          <Text style={styles.submitBtnText}>Add Expense</Text>
+        <Pressable
+          style={styles.submitBtn}
+          onPress={() => {
+            handleExpense(new Expense(name, amount, category));
+          }}>
+          <Text style={styles.submitBtnText}>
+          {expense?.name ? 'Save expense changes' : 'Add expense'}</Text>
         </Pressable>
       </View>
     </SafeAreaView>

@@ -71,6 +71,7 @@ function App(): React.JSX.Element {
           <ExpenseForm
             setShowModal={setShowModal}
             handleExpense={handleExpense}
+            expense={expense}
             setExpense={setExpense}
           />
         </Modal>
