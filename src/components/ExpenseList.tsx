@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import Expense from '../domain/models/Expense';
@@ -6,9 +6,11 @@ import ExpenseDetail from './ExpenseDetail';
 
 interface ExpenseListProps {
   expenses: Expense[];
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setExpense: Dispatch<SetStateAction<Expense>>
 }
 
-const ExpenseList: React.FC<ExpenseListProps> = ({expenses}) => {
+const ExpenseList: React.FC<ExpenseListProps> = ({expenses, setShowModal, setExpense}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Expenses</Text>
@@ -17,7 +19,7 @@ const ExpenseList: React.FC<ExpenseListProps> = ({expenses}) => {
         <Text style={styles.expensesEmpty}>There is no expenses</Text>
       ) : (
         expenses.map(expense => (
-          <ExpenseDetail key={expense.id} expense={expense} />
+          <ExpenseDetail key={expense.id} expense={expense} setShowModal={setShowModal} setExpense={setExpense}/>
         ))
       )}
     </View>

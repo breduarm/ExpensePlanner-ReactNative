@@ -12,7 +12,7 @@ import {Picker} from '@react-native-picker/picker';
 import globalStyles from '../styles';
 import Expense from '../domain/models/Expense';
 
-const ExpenseForm = ({setShowModal, handleExpense}) => {
+const ExpenseForm = ({setShowModal, handleExpense, setExpense}) => {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
@@ -24,6 +24,7 @@ const ExpenseForm = ({setShowModal, handleExpense}) => {
           style={styles.cancelBtn}
           onPress={() => {
             setShowModal(false);
+            setExpense(new Expense());
           }}>
           <Text style={styles.cancelBtnText}>Cancel</Text>
         </Pressable>

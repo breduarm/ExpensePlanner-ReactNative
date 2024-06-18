@@ -7,7 +7,7 @@ class Expense {
   category: string;
   date: number;
 
-  constructor(name: string, amount: string, category: string) {
+  constructor(name: string = '', amount: string = '', category: string = '') {
     this.id = generateId()
     this.date = Date.now()
     this.name = name;

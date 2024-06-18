@@ -21,6 +21,7 @@ function App(): React.JSX.Element {
   const [isBudgetValid, setIsBudgetValid] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expense, setExpense] = useState<Expense>(new Expense());
 
   const handleNewBudget = (budget: number) => {
     console.log('=== new Budget: ', budget);
@@ -57,7 +58,7 @@ function App(): React.JSX.Element {
           )}
         </View>
 
-        {isBudgetValid && <ExpenseList expenses={expenses} />}
+        {isBudgetValid && <ExpenseList expenses={expenses} setShowModal={setShowModal} setExpense={setExpense}/>}
       </ScrollView>
 
       {showModal && (
@@ -70,6 +71,7 @@ function App(): React.JSX.Element {
           <ExpenseForm
             setShowModal={setShowModal}
             handleExpense={handleExpense}
+            setExpense={setExpense}
           />
         </Modal>
       )}

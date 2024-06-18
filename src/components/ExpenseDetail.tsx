@@ -1,5 +1,5 @@
-import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import React, {Dispatch, SetStateAction} from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import Expense from '../domain/models/Expense';
 import globalStyles from '../styles';
@@ -14,26 +14,41 @@ const expenseCategoryIcons = {
 
 interface ExpenseDetailProps {
   expense: Expense;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setExpense: Dispatch<SetStateAction<Expense>>;
 }
 
-const ExpenseDetail: React.FC<ExpenseDetailProps> = ({expense}) => {
+const ExpenseDetail: React.FC<ExpenseDetailProps> = ({
+  expense,
+  setShowModal,
+  setExpense,
+}) => {
+  const handleActions = () => {
+    setShowModal(true);
+    setExpense(expense);
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.containerImage}>
-          <Image
-            style={styles.expenseImage}
-            source={expenseCategoryIcons[expense.category]}
-          />
-          <View style={styles.containerText}>
-            <Text style={styles.category}>{expense.category}</Text>
-            <Text style={styles.expenseName}>{expense.name}</Text>
-            <Text style={styles.expenseDate}>{formatDate(expense.date)}</Text>
+    <Pressable onPress={handleActions}>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <View style={styles.containerImage}>
+            <Image
+              style={styles.expenseImage}
+              source={expenseCategoryIcons[expense.category]}
+            />
+            <View style={styles.containerText}>
+              <Text style={styles.category}>{expense.category}</Text>
+              <Text style={styles.expenseName}>{expense.name}</Text>
+              <Text style={styles.expenseDate}>{formatDate(expense.date)}</Text>
+            </View>
           </View>
+          <Text style={styles.expenseAmount}>
+            {formatAmount(Number(expense.amount))}
+          </Text>
         </View>
-        <Text style={styles.expenseAmount}>{formatAmount(Number(expense.amount))}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
