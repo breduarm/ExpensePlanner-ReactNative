@@ -4,6 +4,7 @@ import {
   Image,
   Modal,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -33,36 +34,44 @@ function App(): React.JSX.Element {
   const handleExpense = (expense: Expense) => {
     if (!expense.isValidExpense()) {
       Alert.alert('Error', 'All fields are required');
-      return
+      return;
     }
 
-    setExpenses([...expenses, expense])
-    setShowModal(false)
-  }
+    setExpenses([...expenses, expense]);
+    setShowModal(false);
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Header />
-        {isBudgetValid ? (
-          <ControlBudget budget={budget} expenses={expenses} />
-        ) : (
-          <NewBudget
-            budget={budget}
-            setBudget={setBudget}
-            handleNewBudget={handleNewBudget}
-          />
-        )}
-      </View>
+      <ScrollView>
+        <View style={styles.header}>
+          <Header />
+          {isBudgetValid ? (
+            <ControlBudget budget={budget} expenses={expenses} />
+          ) : (
+            <NewBudget
+              budget={budget}
+              setBudget={setBudget}
+              handleNewBudget={handleNewBudget}
+            />
+          )}
+        </View>
+
+        {isBudgetValid && <ExpenseList expenses={expenses} />}
+      </ScrollView>
 
       {showModal && (
-        <Modal visible={showModal} animationType="slide" onRequestClose={() => {setShowModal(false)}}>
-          <ExpenseForm setShowModal={setShowModal} handleExpense={handleExpense}/>
+        <Modal
+          visible={showModal}
+          animationType="slide"
+          onRequestClose={() => {
+            setShowModal(false);
+          }}>
+          <ExpenseForm
+            setShowModal={setShowModal}
+            handleExpense={handleExpense}
+          />
         </Modal>
-      )}
-
-      {isBudgetValid && (
-        <ExpenseList expenses={expenses}/>
       )}
 
       {isBudgetValid && (
@@ -87,13 +96,14 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#3B82F6',
+    minHeight: 400,
   },
   img: {
     width: 60,
     height: 60,
     position: 'absolute',
-    top: 120,
     right: 20,
+    bottom: 40,
   },
 });
 

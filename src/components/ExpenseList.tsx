@@ -27,15 +27,17 @@ const ExpenseList: React.FC<ExpenseListProps> = ({expenses}) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 70,
+    marginBottom: 100,
   },
   title: {
+    marginTop: 20,
     color: '#64748B',
     fontSize: 30,
     textAlign: 'center',
     fontWeight: '700',
   },
   expensesEmpty: {
-    marginTop: 20,
+    marginVertical: 20,
     textAlign: 'center',
     fontSize: 20,
   },
