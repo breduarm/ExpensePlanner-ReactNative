@@ -14,7 +14,7 @@ import Expense from '../domain/models/Expense';
 
 interface ExpenseFormProps {
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  handleExpense: (expense: Expense) => void;
+  handleExpense: (expense: Expense, isEditAction: boolean) => void;
   expense: Expense;
   setExpense: Dispatch<SetStateAction<Expense>>;
 }
@@ -28,7 +28,8 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
-  const [id, setId] = useState('');
+  const [id, setId] = useState<string>();
+  const [date, setDate] = useState<number>();
 
   useEffect(() => {
     if (expense?.name) {
@@ -36,6 +37,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
       setAmount(expense.amount);
       setCategory(expense.category);
       setId(expense.id);
+      setDate(expense.date);
     }
   }, [expense]);
 
@@ -91,7 +93,11 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
         <Pressable
           style={styles.submitBtn}
           onPress={() => {
-            handleExpense(new Expense(name, amount, category));
+            if (id) {
+              handleExpense(new Expense(name, amount, category, id, date), true);
+            } else {
+              handleExpense(new Expense(name, amount, category), false);
+            }
           }}>
           <Text style={styles.submitBtnText}>
           {expense?.name ? 'Save expense changes' : 'Add expense'}</Text>

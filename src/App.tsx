@@ -32,13 +32,21 @@ function App(): React.JSX.Element {
     }
   };
 
-  const handleExpense = (expense: Expense) => {
+  const handleExpense = (expense: Expense, isEditAction: boolean) => {
     if (!expense.isValidExpense()) {
       Alert.alert('Error', 'All fields are required');
       return;
     }
 
-    setExpenses([...expenses, expense]);
+    if (isEditAction) {
+      const updatedExpenses = expenses.map(item =>
+        item.id === expense.id ? expense : item,
+      );
+      setExpenses(updatedExpenses)
+    } else {
+      setExpenses([...expenses, expense]);
+    }
+
     setShowModal(false);
   };
 
@@ -58,7 +66,13 @@ function App(): React.JSX.Element {
           )}
         </View>
 
-        {isBudgetValid && <ExpenseList expenses={expenses} setShowModal={setShowModal} setExpense={setExpense}/>}
+        {isBudgetValid && (
+          <ExpenseList
+            expenses={expenses}
+            setShowModal={setShowModal}
+            setExpense={setExpense}
+          />
+        )}
       </ScrollView>
 
       {showModal && (
