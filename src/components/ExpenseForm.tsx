@@ -43,14 +43,17 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <View style ={styles.containerInlineBtns}>
         <Pressable
-          style={styles.cancelBtn}
+          style={[styles.inlineBtns, styles.cancelBtn]}
           onPress={() => {
             setShowModal(false);
             setExpense(new Expense());
           }}>
-          <Text style={styles.cancelBtnText}>Cancel</Text>
+          <Text style={styles.inlineBtnText}>Cancel</Text>
+        </Pressable>
+        <Pressable style={[styles.inlineBtns, styles.deleteBtn]}>
+          <Text style={styles.inlineBtnText}>Delete</Text>
         </Pressable>
       </View>
       <View style={styles.form}>
@@ -112,19 +115,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E40AF',
     flex: 1,
   },
-  cancelBtn: {
+  containerInlineBtns: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  inlineBtns: {
+    flex: 1,
     height: 40,
     marginTop: 32,
-    marginHorizontal: 24,
-    backgroundColor: '#DB2777',
     justifyContent: 'center',
     borderRadius: 8,
   },
-  cancelBtnText: {
+  inlineBtnText: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
     color: '#FFFFFF',
     textAlign: 'center',
+  },
+  cancelBtn: {
+    backgroundColor: '#DB2777',
+    marginLeft: 24,
+    marginRight: 12,
+  },
+  deleteBtn: {
+    backgroundColor: 'red',
+    marginRight: 24,
+    marginLeft: 12,
   },
   form: {
     ...globalStyles.container,
