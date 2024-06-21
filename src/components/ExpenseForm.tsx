@@ -17,6 +17,7 @@ interface ExpenseFormProps {
   handleExpense: (expense: Expense, isEditAction: boolean) => void;
   expense: Expense;
   setExpense: Dispatch<SetStateAction<Expense>>;
+  deleteExpense: (id: string) => void;
 }
 
 const ExpenseForm: React.FC<ExpenseFormProps> = ({
@@ -24,6 +25,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
   handleExpense,
   expense,
   setExpense,
+  deleteExpense,
 }) => {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
@@ -43,7 +45,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style ={styles.containerInlineBtns}>
+      <View style={styles.containerInlineBtns}>
         <Pressable
           style={[styles.inlineBtns, styles.cancelBtn]}
           onPress={() => {
@@ -52,7 +54,11 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
           }}>
           <Text style={styles.inlineBtnText}>Cancel</Text>
         </Pressable>
-        <Pressable style={[styles.inlineBtns, styles.deleteBtn]}>
+        <Pressable
+          style={[styles.inlineBtns, styles.deleteBtn]}
+          onPress={() => {
+            deleteExpense(expense.id);
+          }}>
           <Text style={styles.inlineBtnText}>Delete</Text>
         </Pressable>
       </View>
@@ -97,13 +103,17 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
           style={styles.submitBtn}
           onPress={() => {
             if (id) {
-              handleExpense(new Expense(name, amount, category, id, date), true);
+              handleExpense(
+                new Expense(name, amount, category, id, date),
+                true,
+              );
             } else {
               handleExpense(new Expense(name, amount, category), false);
             }
           }}>
           <Text style={styles.submitBtnText}>
-          {expense?.name ? 'Save expense changes' : 'Add expense'}</Text>
+            {expense?.name ? 'Save expense changes' : 'Add expense'}
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>

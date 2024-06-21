@@ -6,7 +6,6 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import Header from './components/Header';
@@ -42,12 +41,31 @@ function App(): React.JSX.Element {
       const updatedExpenses = expenses.map(item =>
         item.id === expense.id ? expense : item,
       );
-      setExpenses(updatedExpenses)
+      setExpenses(updatedExpenses);
     } else {
       setExpenses([...expenses, expense]);
     }
 
     setShowModal(false);
+  };
+
+  const deleteExpense = (id: string) => {
+    Alert.alert(
+      'Do you want to delete this expense',
+      'An deleted expense cannot be restored',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {
+          text: 'Delete',
+          onPress: () => {
+            const updatedExpenses = expenses.filter(item => item.id !== id);
+            setExpenses(updatedExpenses);
+            setShowModal(false);
+            setExpense(new Expense())
+          },
+        },
+      ],
+    );
   };
 
   return (
@@ -87,6 +105,7 @@ function App(): React.JSX.Element {
             handleExpense={handleExpense}
             expense={expense}
             setExpense={setExpense}
+            deleteExpense={deleteExpense}
           />
         </Modal>
       )}
