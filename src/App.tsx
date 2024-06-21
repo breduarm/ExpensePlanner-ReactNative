@@ -61,7 +61,7 @@ function App(): React.JSX.Element {
             const updatedExpenses = expenses.filter(item => item.id !== id);
             setExpenses(updatedExpenses);
             setShowModal(false);
-            setExpense(new Expense())
+            setExpense(new Expense());
           },
         },
       ],
@@ -112,6 +112,7 @@ function App(): React.JSX.Element {
 
       {isBudgetValid && (
         <Pressable
+          style={styles.fab}
           onPress={() => {
             setShowModal(true);
           }}>
@@ -134,12 +135,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#3B82F6',
     minHeight: 400,
   },
+  fab: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    right: 20,
+    bottom: 40,
+  },
   img: {
     width: 60,
     height: 60,
-    position: 'absolute',
-    right: 20,
-    bottom: 40,
   },
 });
 
