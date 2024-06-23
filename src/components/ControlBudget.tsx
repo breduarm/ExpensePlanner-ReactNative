@@ -8,6 +8,7 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 const ControlBudget = ({budget, expenses}) => {
   const [available, setAvailable] = useState(0);
   const [spent, setSpent] = useState(0);
+  const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
     const totalSpent = expenses.reduce(
@@ -15,28 +16,30 @@ const ControlBudget = ({budget, expenses}) => {
       0,
     );
     const totalAvailable = budget - totalSpent;
+    const totalPercentage = ((budget - totalAvailable) / budget) * 100;
 
     setSpent(totalSpent);
     setAvailable(totalAvailable);
+    setTimeout(() => {
+      setPercentage(totalPercentage);
+    }, 250);
   }, [expenses]);
 
   return (
     <View style={styles.container}>
       <View style={styles.centerGraph}>
         <CircularProgress
-        radius={150}
+          radius={150}
           activeStrokeColor="#3B82F6"
           inActiveStrokeColor="#F5F5F5"
           activeStrokeWidth={20}
           inActiveStrokeWidth={20}
           duration={1000}
-          value={50}
-          valueSuffix='%'
-          title='Spent'
-          titleStyle={
-            {fontWeight: '700', fontSize: 20}
-          }
-          titleColor='#64748B'
+          value={percentage}
+          valueSuffix="%"
+          title="Spent"
+          titleStyle={{fontWeight: '700', fontSize: 20}}
+          titleColor="#64748B"
         />
       </View>
 
