@@ -54,13 +54,15 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({
           }}>
           <Text style={styles.inlineBtnText}>Cancel</Text>
         </Pressable>
-        <Pressable
-          style={[styles.inlineBtns, styles.deleteBtn]}
-          onPress={() => {
-            deleteExpense(expense.id);
-          }}>
-          <Text style={styles.inlineBtnText}>Delete</Text>
-        </Pressable>
+        {!!id && (
+          <Pressable
+            style={[styles.inlineBtns, styles.deleteBtn]}
+            onPress={() => {
+              deleteExpense(expense.id);
+            }}>
+            <Text style={styles.inlineBtnText}>Delete</Text>
+          </Pressable>
+        )}
       </View>
       <View style={styles.form}>
         <Text style={styles.title}>
