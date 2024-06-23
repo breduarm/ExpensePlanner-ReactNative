@@ -23,7 +23,21 @@ const ControlBudget = ({budget, expenses}) => {
   return (
     <View style={styles.container}>
       <View style={styles.centerGraph}>
-        <CircularProgress  value={50} />
+        <CircularProgress
+        radius={150}
+          activeStrokeColor="#3B82F6"
+          inActiveStrokeColor="#F5F5F5"
+          activeStrokeWidth={20}
+          inActiveStrokeWidth={20}
+          duration={1000}
+          value={50}
+          valueSuffix='%'
+          title='Spent'
+          titleStyle={
+            {fontWeight: '700', fontSize: 20}
+          }
+          titleColor='#64748B'
+        />
       </View>
 
       <View style={styles.containerText}>
