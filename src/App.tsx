@@ -22,6 +22,8 @@ function App(): React.JSX.Element {
   const [showModal, setShowModal] = useState(false);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [expense, setExpense] = useState<Expense>(new Expense());
+  const [filter, setFilter] = useState('');
+  const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
 
   const handleNewBudget = (budget: number) => {
     console.log('=== new Budget: ', budget);
@@ -87,7 +89,12 @@ function App(): React.JSX.Element {
 
         {isBudgetValid && (
           <>
-            <Filter />
+            <Filter
+              filter={filter}
+              expenses={expenses}
+              setFilter={setFilter}
+              setFilteredExpenses={setFilteredExpenses}
+            />
             <ExpenseList
               expenses={expenses}
               setShowModal={setShowModal}

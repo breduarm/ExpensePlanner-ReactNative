@@ -1,13 +1,34 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import globalStyles from '../styles';
 import {Picker} from '@react-native-picker/picker';
+import Expense from '../domain/models/Expense';
 
-const Filter = () => {
+interface FilterProps {
+  filter: string;
+  expenses: Expense[];
+  setFilter: Dispatch<SetStateAction<string>>;
+  setFilteredExpenses: Dispatch<SetStateAction<Expense[]>>;
+}
+
+const Filter: React.FC<FilterProps> = ({filter, expenses, setFilter, setFilteredExpenses}) => {
+  useEffect(() => {
+    if (filter === '') {
+        setFilteredExpenses([])
+    } else {
+        const filteredExpenses = expenses.filter( expense => expense.category === filter )
+        setFilteredExpenses(filteredExpenses)
+    }
+  }, [filter]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Expenses Filter</Text>
-      <Picker>
+      <Picker
+        selectedValue={filter}
+        onValueChange={value => {
+          setFilter(value);
+        }}>
         <Picker.Item label="-- Select --" value="" />
         <Picker.Item label="Savings" value="savings" />
         <Picker.Item label="Food" value="food" />
