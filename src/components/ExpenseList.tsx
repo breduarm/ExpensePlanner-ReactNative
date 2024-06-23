@@ -28,7 +28,7 @@ const ExpenseList: React.FC<ExpenseListProps> = ({expenses, setShowModal, setExp
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 70,
+    marginTop: 30,
     marginBottom: 100,
   },
   title: {

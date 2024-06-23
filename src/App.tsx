@@ -14,6 +14,7 @@ import ControlBudget from './components/ControlBudget';
 import Expense from './domain/models/Expense';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
+import Filter from './components/Filter';
 
 function App(): React.JSX.Element {
   const [budget, setBudget] = useState(0);
@@ -85,11 +86,14 @@ function App(): React.JSX.Element {
         </View>
 
         {isBudgetValid && (
-          <ExpenseList
-            expenses={expenses}
-            setShowModal={setShowModal}
-            setExpense={setExpense}
-          />
+          <>
+            <Filter />
+            <ExpenseList
+              expenses={expenses}
+              setShowModal={setShowModal}
+              setExpense={setExpense}
+            />
+          </>
         )}
       </ScrollView>
 
