@@ -29,12 +29,11 @@ function App(): React.JSX.Element {
   const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
 
   useEffect(() => {
-    console.log('==== D: on UseEffect in App');
-
     getStoredBudget().then((value: number) => {
-      console.log('==== D: on getStoredBudget value = ' + value);
-      setBudget(value);
-      handleNewBudget(value);
+      if (value > 0) {
+        setBudget(value)
+        setIsBudgetValid(true)
+      }
     });
 
     getDataObject('expense').then((expense: Expense | null) => {
@@ -77,8 +76,8 @@ function App(): React.JSX.Element {
 
   const getStoredBudget = async (): Promise<number> => {
     try {
-      const budgetStr = await AsyncStorage.getItem('budget');
-      return budgetStr ? parseInt(budgetStr) : 0;
+      const budgetStr: string = await AsyncStorage.getItem('ExpensePlanner-budget') ?? '0';
+      return parseInt(budgetStr);
     } catch (e) {
       console.log("==== E: There's an error getting the budget");
       return 0;
