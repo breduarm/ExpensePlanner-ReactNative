@@ -97,6 +97,8 @@ function App(): React.JSX.Element {
             />
             <ExpenseList
               expenses={expenses}
+              filter={filter}
+              filteredExpenses={filteredExpenses}
               setShowModal={setShowModal}
               setExpense={setExpense}
             />
