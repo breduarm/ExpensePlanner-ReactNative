@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Image,
@@ -8,6 +8,9 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import Header from './components/Header';
 import NewBudget from './components/NewBudget';
 import ControlBudget from './components/ControlBudget';
@@ -25,10 +28,67 @@ function App(): React.JSX.Element {
   const [filter, setFilter] = useState('');
   const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
 
+  useEffect(() => {
+    console.log('==== D: on UseEffect in App');
+
+    getStoredBudget().then((value: number) => {
+      console.log('==== D: on getStoredBudget value = ' + value);
+      setBudget(value);
+      handleNewBudget(value);
+    });
+
+    getDataObject('expense').then((expense: Expense | null) => {
+      if (expense !== null) {
+        setExpenses([expense]);
+      }
+    });
+  }, []);
+
+  const storeDataObject = async (expense: Expense) => {
+    try {
+      const expenseJsonStr = JSON.stringify(expense);
+      await AsyncStorage.setItem('expense', expenseJsonStr);
+    } catch (e) {
+      console.log("==== E: There's an error saving object value: " + {expense});
+    }
+  };
+
+  const getDataObject = async (key: string): Promise<Expense | null> => {
+    try {
+      const expenseJsonStr = await AsyncStorage.getItem(key);
+      return expenseJsonStr ? JSON.parse(expenseJsonStr) : null;
+    } catch (e) {
+      console.log("==== E: There's an error getting key: " + {key});
+      return null;
+    }
+  };
+
+  const storeBudget = async (value: string) => {
+    try {
+      console.log('==== D: on storeBudget value = ' + value);
+      await AsyncStorage.setItem('budget', value);
+    } catch (e) {
+      console.log("==== E: There's an error saving value: " + {value});
+    }
+  };
+
+  const getStoredBudget = async (): Promise<number> => {
+    try {
+      const budgetStr = await AsyncStorage.getItem('budget');
+      return budgetStr ? parseInt(budgetStr) : 0;
+    } catch (e) {
+      console.log("==== E: There's an error getting the budget");
+      return 0;
+    }
+  };
+
+  // const storeExpenses = async ()
+
   const handleNewBudget = (budget: number) => {
     console.log('=== new Budget: ', budget);
     if (budget > 0) {
       setIsBudgetValid(true);
+      storeBudget(budget.toString());
     } else {
       Alert.alert('Error', 'The budget must be greater than 0');
     }
@@ -46,6 +106,7 @@ function App(): React.JSX.Element {
       );
       setExpenses(updatedExpenses);
     } else {
+      storeDataObject(expense);
       setExpenses([...expenses, expense]);
     }
 

@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import globalStyles from '../styles';
 
-const NewBudget = ({budget, setBudget, handleNewBudget}) => {
+interface NewBudgetProps {
+  budget: number;
+  setBudget: Dispatch<SetStateAction<number>>;
+  handleNewBudget: (budget: number) => void;
+}
+
+const NewBudget: React.FC<NewBudgetProps> = ({budget, setBudget, handleNewBudget}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Define Budget</Text>
       <TextInput
         style={styles.input}
         value={budget.toString()}
-        onChangeText={newText => setBudget(parseFloat(newText))}
+        onChangeText={newText => {
+          setBudget(parseFloat(newText))
+        }}
         keyboardType="numeric"
         placeholder="Add your budget: e.g. 300"></TextInput>
       <Pressable style={styles.button} onPress={() => handleNewBudget(budget)}>
