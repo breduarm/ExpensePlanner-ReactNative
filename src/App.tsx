@@ -44,6 +44,10 @@ function App(): React.JSX.Element {
     });
   }, []);
 
+  useEffect(() => {
+    if (isBudgetValid) storeBudget()
+  }, [isBudgetValid])
+
   const storeDataObject = async (expense: Expense) => {
     try {
       const expenseJsonStr = JSON.stringify(expense);
@@ -63,12 +67,11 @@ function App(): React.JSX.Element {
     }
   };
 
-  const storeBudget = async (value: string) => {
+  const storeBudget = async () => {
     try {
-      console.log('==== D: on storeBudget value = ' + value);
-      await AsyncStorage.setItem('budget', value);
+      await AsyncStorage.setItem('ExpensePlanner-budget', budget.toString());
     } catch (e) {
-      console.log("==== E: There's an error saving value: " + {value});
+      console.log("==== E: There's an error storing the budget: " + budget);
     }
   };
 
@@ -88,7 +91,6 @@ function App(): React.JSX.Element {
     console.log('=== new Budget: ', budget);
     if (budget > 0) {
       setIsBudgetValid(true);
-      storeBudget(budget.toString());
     } else {
       Alert.alert('Error', 'The budget must be greater than 0');
     }
