@@ -135,13 +135,24 @@ function App(): React.JSX.Element {
     );
   };
 
+  const handleReset = () => {
+    Alert.alert(
+      'Do you want to reset all values?',
+      'This action deletes your stored budget and expenses.',
+      [
+        {text: 'No', style: 'cancel'},
+        {text: 'Yes! Delete all'},
+      ]
+    )
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.header}>
           <Header />
           {isBudgetValid ? (
-            <ControlBudget budget={budget} expenses={expenses} />
+            <ControlBudget budget={budget} expenses={expenses} handleReset={handleReset}/>
           ) : (
             <NewBudget
               budget={budget}

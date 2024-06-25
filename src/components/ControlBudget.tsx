@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import globalStyles from '../styles';
 import {formatAmount} from '../helpers';
 import Expense from '../domain/models/Expense';
 import CircularProgress from 'react-native-circular-progress-indicator';
 
-const ControlBudget = ({budget, expenses}) => {
+const ControlBudget = ({budget, expenses, handleReset}) => {
   const [available, setAvailable] = useState(0);
   const [spent, setSpent] = useState(0);
   const [percentage, setPercentage] = useState(0);
@@ -44,6 +44,10 @@ const ControlBudget = ({budget, expenses}) => {
       </View>
 
       <View style={styles.containerText}>
+        <Pressable style={styles.btnReset} onPress={handleReset}>
+          <Text style={styles.btnResetText}>Reset everything</Text>
+        </Pressable>
+
         <Text style={styles.value}>
           <Text style={styles.labelValue}>Budget: {''}</Text>
           {formatAmount(budget)}
@@ -85,6 +89,19 @@ const styles = StyleSheet.create({
   labelValue: {
     fontWeight: '700',
     color: '#3B82F6',
+  },
+  btnReset: {
+    marginBottom: 40,
+    backgroundColor: '#DB2777',
+    height: 40,
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  btnResetText: {
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontWeight: '700',
+    textTransform: 'uppercase',
   },
 });
 
