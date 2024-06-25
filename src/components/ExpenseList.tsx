@@ -41,10 +41,10 @@ const ExpenseList: React.FC<ExpenseListProps> = ({
             />
           ))}
 
-      {expenses.length === 0 ||
-        (!!filter && filteredExpenses.length === 0 && (
-          <Text style={styles.expensesEmpty}>There is no expenses</Text>
-        ))}
+      {(expenses.length === 0 ||
+        (!!filter && filteredExpenses.length === 0)) && (
+        <Text style={styles.expensesEmpty}>There is no expenses</Text>
+      )}
     </View>
   );
 };
