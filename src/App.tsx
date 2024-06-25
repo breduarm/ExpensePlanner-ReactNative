@@ -31,8 +31,8 @@ function App(): React.JSX.Element {
   useEffect(() => {
     getStoredBudget().then((value: number) => {
       if (value > 0) {
-        setBudget(value)
-        setIsBudgetValid(true)
+        setBudget(value);
+        setIsBudgetValid(true);
       }
     });
 
@@ -44,15 +44,36 @@ function App(): React.JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (isBudgetValid) storeBudget()
-  }, [isBudgetValid])
+    if (isBudgetValid) storeBudget();
+  }, [isBudgetValid]);
 
-  const storeDataObject = async (expense: Expense) => {
+  useEffect(() => {}, [expenses]);
+
+  const storeBudget = async () => {
     try {
-      const expenseJsonStr = JSON.stringify(expense);
-      await AsyncStorage.setItem('expense', expenseJsonStr);
+      await AsyncStorage.setItem('ExpensePlanner-budget', budget.toString());
     } catch (e) {
-      console.log("==== E: There's an error saving object value: " + {expense});
+      console.log("==== E: There's an error storing the budget: " + budget);
+    }
+  };
+
+  const getStoredBudget = async (): Promise<number> => {
+    try {
+      const budgetStr: string =
+        (await AsyncStorage.getItem('ExpensePlanner_budget')) ?? '0';
+      return parseInt(budgetStr);
+    } catch (e) {
+      console.log("==== E: There's an error getting the budget");
+      return 0;
+    }
+  };
+
+  const storeExpenses = async () => {
+    try {
+      const expensesJsonStr = JSON.stringify(expenses);
+      await AsyncStorage.setItem('ExpensePlanner_expense', expensesJsonStr);
+    } catch (e) {
+      console.log("==== E: There's an error saving expenses: " + expenses);
     }
   };
 
@@ -65,26 +86,6 @@ function App(): React.JSX.Element {
       return null;
     }
   };
-
-  const storeBudget = async () => {
-    try {
-      await AsyncStorage.setItem('ExpensePlanner-budget', budget.toString());
-    } catch (e) {
-      console.log("==== E: There's an error storing the budget: " + budget);
-    }
-  };
-
-  const getStoredBudget = async (): Promise<number> => {
-    try {
-      const budgetStr: string = await AsyncStorage.getItem('ExpensePlanner-budget') ?? '0';
-      return parseInt(budgetStr);
-    } catch (e) {
-      console.log("==== E: There's an error getting the budget");
-      return 0;
-    }
-  };
-
-  // const storeExpenses = async ()
 
   const handleNewBudget = (budget: number) => {
     console.log('=== new Budget: ', budget);
@@ -107,7 +108,6 @@ function App(): React.JSX.Element {
       );
       setExpenses(updatedExpenses);
     } else {
-      storeDataObject(expense);
       setExpenses([...expenses, expense]);
     }
 
