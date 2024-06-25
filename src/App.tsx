@@ -36,10 +36,8 @@ function App(): React.JSX.Element {
       }
     });
 
-    getDataObject('expense').then((expense: Expense | null) => {
-      if (expense !== null) {
-        setExpenses([expense]);
-      }
+    getStoredExpenses().then((expense: Expense[]) => {
+      setExpenses(expense);
     });
   }, []);
 
@@ -47,11 +45,13 @@ function App(): React.JSX.Element {
     if (isBudgetValid) storeBudget();
   }, [isBudgetValid]);
 
-  useEffect(() => {}, [expenses]);
+  useEffect(() => {
+    storeExpenses();
+  }, [expenses]);
 
   const storeBudget = async () => {
     try {
-      await AsyncStorage.setItem('ExpensePlanner-budget', budget.toString());
+      await AsyncStorage.setItem('ExpensePlanner_budget', budget.toString());
     } catch (e) {
       console.log("==== E: There's an error storing the budget: " + budget);
     }
@@ -71,19 +71,21 @@ function App(): React.JSX.Element {
   const storeExpenses = async () => {
     try {
       const expensesJsonStr = JSON.stringify(expenses);
-      await AsyncStorage.setItem('ExpensePlanner_expense', expensesJsonStr);
+      await AsyncStorage.setItem('ExpensePlanner_expenses', expensesJsonStr);
     } catch (e) {
       console.log("==== E: There's an error saving expenses: " + expenses);
     }
   };
 
-  const getDataObject = async (key: string): Promise<Expense | null> => {
+  const getStoredExpenses = async (): Promise<Expense[]> => {
     try {
-      const expenseJsonStr = await AsyncStorage.getItem(key);
-      return expenseJsonStr ? JSON.parse(expenseJsonStr) : null;
+      const expensesJsonStr = await AsyncStorage.getItem(
+        'ExpensePlanner_expenses',
+      );
+      return expensesJsonStr ? JSON.parse(expensesJsonStr) : [];
     } catch (e) {
-      console.log("==== E: There's an error getting key: " + {key});
-      return null;
+      console.log("==== E: There's an error getting the expenses");
+      return [];
     }
   };
 
