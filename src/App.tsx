@@ -89,6 +89,18 @@ function App(): React.JSX.Element {
     }
   };
 
+  const resetStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+
+      setIsBudgetValid(false);
+      setBudget(0);
+      setExpenses([]);
+    } catch (e) {
+      console.log('Error clearing all stored data');
+    }
+  };
+
   const handleNewBudget = (budget: number) => {
     console.log('=== new Budget: ', budget);
     if (budget > 0) {
@@ -141,10 +153,13 @@ function App(): React.JSX.Element {
       'This action deletes your stored budget and expenses.',
       [
         {text: 'No', style: 'cancel'},
-        {text: 'Yes! Delete all'},
-      ]
-    )
-  }
+        {
+          text: 'Yes! Delete all',
+          onPress: resetStorage,
+        },
+      ],
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -152,7 +167,11 @@ function App(): React.JSX.Element {
         <View style={styles.header}>
           <Header />
           {isBudgetValid ? (
-            <ControlBudget budget={budget} expenses={expenses} handleReset={handleReset}/>
+            <ControlBudget
+              budget={budget}
+              expenses={expenses}
+              handleReset={handleReset}
+            />
           ) : (
             <NewBudget
               budget={budget}
